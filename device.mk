@@ -22,5 +22,11 @@ TARGET_RECOVERY_DEVICE_MODULES += \
     libandroidicu \
     libion
 
+RECOVERY_LIBRARY_SOURCE_FILES += \
+    $(TARGET_OUT_SHARED_LIBRARIES)/libkeymaster41.so \
+    $(TARGET_OUT_SHARED_LIBRARIES)/libkeymaster4.so \
+    $(TARGET_OUT_SHARED_LIBRARIES)/libpuresoftkeymasterdevice.so \
+    $(TARGET_OUT_SHARED_LIBRARIES)/libion.so
+
 # Dynamic Partitions
 PRODUCT_USE_DYNAMIC_PARTITIONS := true
