@@ -1,0 +1,27 @@
+service drm /system/bin/drmserver
+    disabled
+    class main
+    user drm
+    # Add drmserver access sdcard and internal storage permission
+    group drm system inet drmrpc readproc sdcard_rw media_rw
+    writepid /dev/cpuset/foreground/tasks
+
+service drm64 /system/bin/drmserver64
+    disabled
+    class main
+    user drm
+    # Add drmserver access sdcard and internal storage permission
+    group drm system inet drmrpc readproc sdcard_rw media_rw
+    writepid /dev/cpuset/foreground/tasks
+
+on property:drm.service.enabled=true && property:ro.vendor.mtk_prefer_64bit_proc=1
+    start drm64
+
+on property:drm.service.enabled=1 && property:ro.vendor.mtk_prefer_64bit_proc=1
+    start drm64
+
+on property:drm.service.enabled=true && property:ro.vendor.mtk_prefer_64bit_proc=0
+    start drm
+
+on property:drm.service.enabled=1 && property:ro.vendor.mtk_prefer_64bit_proc=0
+    start drm
