@@ -16,6 +16,11 @@ PRODUCT_PACKAGES += \
 # Additional target Libraries
 TARGET_RECOVERY_DEVICE_MODULES += \
     android.hardware.keymaster@4.1 \
+    libkeymaster41 \
+    libkeymaster4 \
+    libpuresoftkeymasterdevice \
+    libandroidicu \
+    libion
 
 # Dynamic Partitions
 PRODUCT_USE_DYNAMIC_PARTITIONS := true
