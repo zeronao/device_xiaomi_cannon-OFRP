@@ -1,3 +1,5 @@
+# mount point             fstype   device                                          flags
+
 /system                   ext4     system                                          flags=display=system;logical
 /vendor                   ext4     vendor                                          flags=display=vendor;logical
 /product                  ext4     product                                         flags=display=product;logical
