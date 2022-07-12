@@ -20,6 +20,26 @@ PRODUCT_PACKAGES += \
 PRODUCT_TARGET_VNDK_VERSION := 31
 PRODUCT_SHIPPING_API_LEVEL := 29
 
+# Health
+PRODUCT_PACKAGES += \
+    android.hardware.health@2.1-impl \
+    android.hardware.health@2.1-service
+
+# Build MT-PL-Utils
+PRODUCT_PACKAGES += \
+    mtk_plpath_utils \
+    mtk_plpath_utils.recovery
+    
+# Keymint
+PRODUCT_PACKAGES += \
+    android.hardware.security.keymint \
+    android.hardware.security.secureclock \
+    android.hardware.security.sharedsecret
+
+# Keystore
+PRODUCT_PACKAGES += \
+    android.system.keystore2
+    
 # Keymaster
 PRODUCT_PACKAGES += \
     android.hardware.keymaster@4.1 \
