@@ -15,6 +15,7 @@ PRODUCT_PACKAGES += \
     android.hardware.fastboot@1.0-impl-mock \
     android.hardware.fastboot@1.0-impl-mock.recovery \
     fastbootd 
+TW_INCLUDE_FASTBOOTD := true
 
 # API
 PRODUCT_TARGET_VNDK_VERSION := 31
@@ -31,6 +32,12 @@ PRODUCT_PACKAGES += \
     android.hardware.security.secureclock \
     android.hardware.security.sharedsecret
 
+# Keymint
+PRODUCT_PACKAGES += \
+    android.hardware.security.keymint \
+    android.hardware.security.secureclock \
+    android.hardware.security.sharedsecret
+    
 # Keystore
 PRODUCT_PACKAGES += \
     android.system.keystore2
@@ -40,15 +47,16 @@ PRODUCT_PACKAGES += \
     android.hardware.keymaster@4.1 \
 	android.hardware.keymaster@4.0
 
-# Additional target Libraries
+# Additional binaries & libraries needed for recovery
 TARGET_RECOVERY_DEVICE_MODULES += \
-    android.hardware.keymaster@4.1 \
-	android.hardware.keymaster@4.0
+    libkeymaster41 \
+    libkeymaster4 \
+    libpuresoftkeymasterdevice
 
-# Additional target Libraries
-TW_RECOVERY_ADDITIONAL_RELINK_LIBRARY_FILES += \
-    $(TARGET_OUT_SHARED_LIBRARIES)/android.hardware.keymaster@4.1.so \
-	$(TARGET_OUT_SHARED_LIBRARIES)/android.hardware.keymaster@4.0.so
+RECOVERY_LIBRARY_SOURCE_FILES += \
+    $(TARGET_OUT_SHARED_LIBRARIES)/libkeymaster41.so \
+    $(TARGET_OUT_SHARED_LIBRARIES)/libkeymaster4.so \
+    $(TARGET_OUT_SHARED_LIBRARIES)/libpuresoftkeymasterdevice.so
 
 #config
 TW_FRAMERATE := 60
