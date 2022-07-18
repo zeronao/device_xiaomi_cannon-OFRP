@@ -21,6 +21,10 @@ TW_INCLUDE_FASTBOOTD := true
 PRODUCT_TARGET_VNDK_VERSION := 31
 PRODUCT_SHIPPING_API_LEVEL := 29
 
+# Drm
+PRODUCT_PACKAGES += \
+    android.hardware.drm@1.4
+
 # Health
 PRODUCT_PACKAGES += \
     android.hardware.health@2.1-impl \
