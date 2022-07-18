@@ -103,6 +103,7 @@ on property:crypto.ready=1
 
 on property:hwservicemanager.ready=true
     start vendor.keymint-beanpod
+    start keymaster-4-1
     start vendor.gatekeeper-1-0
 
 on property:ro.crypto.state=unsupported
@@ -119,6 +120,11 @@ on property:twrp.decrypt.done=true
     stop teei_daemon
     stop vendor.keymint-beanpod
     stop vendor.gatekeeper-1-0
+
+on property:sys.usb.config=fastboot
+    start servicemanager
+    start hwservicemanager
+    restart fastbootd
 
 on property:crypto.ready=0
     stop teei_daemon
