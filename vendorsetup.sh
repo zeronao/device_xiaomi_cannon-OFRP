@@ -12,7 +12,7 @@
 	echo -e "\x1b[96mcannon: 开始添加OrangeFox Vars...\x1b[m"
 	## 构建信息
 	# 设置显示在关于页面里的维护人员名称
-	export OF_MAINTAINER=AneglaCool,ymdzq,Kanbay
+	export OF_MAINTAINER=AneglaCool,ymdzq,Kanbay,Uzeda
 	# 设置版本号为日期
 	export FOX_VERSION=$(date +%y.%m.%d)
 
@@ -95,13 +95,15 @@
 	# 关闭修改橙狐启动画面功能，这个功能可能会导致重启无限卡MI
 	export OF_NO_SPLASH_CHANGE=1
 	# 禁用橙狐内置的magisk菜单
-	export FOX_DELETE_MAGISK_ADDON=1
+	export FOX_DELETE_MAGISK_ADDON=0
 	# 使用指定的magisk
-    export FOX_USE_SPECIFIC_MAGISK_ZIP="$HOME/Magisk.zip"
+        export FOX_USE_SPECIFIC_MAGISK_ZIP="$PWD/device/xiaomi/cannon/recovery/root/FFiles/Magisk.zip"
 	# 使用指定的magisk版本号，由于magisk 23+使用了新的包装形式，文件路径改变了，橙狐无法获取正确的版本
 	export MAGISK_VER=25.2
 	# 当修补recovery/boot镜像时，始终指示magiskboot v24+修补vbmeta标头（自动禁用avb验证？）
+	export OF_USE_MAGISKBOOT=1
 	export OF_PATCH_VBMETA_FLAG=1
+	export OF_USE_MAGISKBOOT_FOR_ALL_PATCHES=1
 	# 修复部分设备或者rom的解密问题
 	export OF_FIX_DECRYPTION_ON_DATA_MEDIA=1
 
