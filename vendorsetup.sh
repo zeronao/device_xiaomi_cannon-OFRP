@@ -63,7 +63,7 @@
 	export OF_ALLOW_DISABLE_NAVBAR=0
 
 	## 使刷机包兼容红米note9 5G
-	export TARGET_DEVICE_ALT="cannon"
+	export TARGET_DEVICE_ALT="cannon,cannong"
 
 	## 添加橙狐特殊处理
 	# 设定recovery、system、vendor、boot分区路径
