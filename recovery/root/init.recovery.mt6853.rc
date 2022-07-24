@@ -1,137 +1,37 @@
-import /microtrust.rc
+import /init.recovery.teei_daemon.rc
 
 on init
-    setprop sys.usb.configfs 1
-    setprop sys.usb.ffs.aio_compat 1
-    export LD_LIBRARY_PATH /vendor/lib64:/vendor/lib64/hw
-    start hwservicemanager
-    setprop crypto.ready 1
-
-on fs && property:ro.debuggable=0
-    # distinguish USB shoulde connect or not, i.e. CDP vs SDP
-    # write /sys/class/udc/musb-hdrc/device/cmode 2
-    # set charging free due to it wait for USB activation
-    #start adbd
+    # Create a more standard /dev/block layout for our scripts
+    symlink /dev/block/platform/bootdevice /dev/block/bootdevice
+    mkdir /mnt/vendor/persist 0700 root root
+    mount ext4 /dev/block/platform/bootdevice/by-name/persist /mnt/vendor/persist
+    export LD_LIBRARY_PATH /system/lib64:/vendor/lib64:/vendor/lib64/hw
 
 on fs
     install_keyring
 
-on late-fs
-    # Wait for keymaster
-    exec_start wait_for_keymaster
-
-    # Mount RW partitions which need run fsck
-    mount_all /first_stage_ramdisk/fstab.mt6895 --late
-
 on post-fs
-    # Support A/B feature for EMMC and UFS boot region
-    wait /dev/block/mmcblk0boot0 2
-    symlink /dev/block/sda /dev/block/mmcblk0boot0
-    symlink /dev/block/sdb /dev/block/mmcblk0boot1
-    symlink /dev/block/mmcblk0boot0 /dev/block/platform/bootdevice/by-name/preloader_a
-    symlink /dev/block/mmcblk0boot1 /dev/block/platform/bootdevice/by-name/preloader_b
-
-    # Support A/B feature for combo emmc and ufs OTA update
-    symlink /dev/block/platform/bootdevice/by-name/preloader_a /dev/block/platform/bootdevice/by-name/preloader_emmc_a
-    symlink /dev/block/platform/bootdevice/by-name/preloader_b /dev/block/platform/bootdevice/by-name/preloader_emmc_b
-    symlink /dev/block/platform/bootdevice/by-name/preloader_a /dev/block/platform/bootdevice/by-name/preloader_ufs_a
-    symlink /dev/block/platform/bootdevice/by-name/preloader_b /dev/block/platform/bootdevice/by-name/preloader_ufs_b
-
-    # Support A/B feature for combo emmc and ufs OTA update
-    symlink /dev/block/platform/bootdevice/by-name/preloader_a /dev/block/by-name/preloader_emmc_a
-    symlink /dev/block/platform/bootdevice/by-name/preloader_b /dev/block/by-name/preloader_emmc_b
-    symlink /dev/block/platform/bootdevice/by-name/preloader_a /dev/block/by-name/preloader_ufs_a
-    symlink /dev/block/platform/bootdevice/by-name/preloader_b /dev/block/by-name/preloader_ufs_b
-
-    symlink /dev/block/mapper/pl_a /dev/block/by-name/preloader_raw_a
-    symlink /dev/block/mapper/pl_b /dev/block/by-name/preloader_raw_b
-    symlink /dev/block/mapper/pl_a /dev/block/platform/bootdevice/by-name/preloader_raw_a
-    symlink /dev/block/mapper/pl_b /dev/block/platform/bootdevice/by-name/preloader_raw_b
-
-    symlink /dev/block/platform/bootdevice /dev/block/bootdevice
-    
-    exec u:r:update_engine:s0 root root -- /system/bin/mtk_plpath_utils
-    start mtk.plpath.utils.link
-
-service mtk.plpath.utils.link /system/bin/mtk_plpath_utils
-    class main
-    user root
-    group root system
-    disabled
-    oneshot
-    seclabel u:r:recovery:s0
-    
-service vendor.gatekeeper-1-0 /vendor/bin/hw/android.hardware.gatekeeper@1.0-service
-    user root
-    group root
-    disabled
-    seclabel u:r:recovery:s0
-    
-service vendor.keymint-beanpod /vendor/bin/hw/android.hardware.security.keymint@1.0-service.beanpod
-    class early_hal
-    user nobody
-    seclabel u:r:recovery:s0
-
-service wait_for_keymaster /system/bin/wait_for_keymaster
-    user root
-    group root system
-    priority -20
-    ioprio rt 0
-    seclabel u:r:recovery:s0
-
-service keystore2 /system/bin/keystore2 /data/misc/keystore
-    class early_hal
-    user keystore
-    group keystore readproc log
-    seclabel u:r:recovery:s0
-
-service hwservicemanager /system/bin/hwservicemanager
-    user root
-    group root
-    disabled
-    onrestart setprop hwservicemanager.ready false
-    seclabel u:r:recovery:s0
-
-service servicemanager /system/bin/servicemanager
-    user root
-    group root readproc
-    disabled
-    seclabel u:r:recovery:s0
-
-on property:crypto.ready=1
-    start vendor.keymint-beanpod
-
-on property:hwservicemanager.ready=true
-    start vendor.keymint-beanpod
-    start keymaster-4-1
-    start vendor.gatekeeper-1-0
-
-on property:ro.crypto.state=unsupported
-    stop teei_daemon
-    stop vendor.keymint-beanpod
-    stop vendor.gatekeeper-1-0
-
-on property:ro.crypto.state=unencrypted
-    stop teei_daemon
-    stop vendor.keymint-beanpod
-    stop vendor.gatekeeper-1-0
-
-on property:twrp.decrypt.done=true
-    stop teei_daemon
-    stop vendor.keymint-beanpod
-    stop vendor.gatekeeper-1-0
-
-on property:sys.usb.config=fastboot
-    start servicemanager
-    start hwservicemanager
-    restart fastbootd
-
-on property:crypto.ready=0
-    stop teei_daemon
-    stop vendor.keymint-beanpod
-    stop vendor.gatekeeper-1-0
-    stop servicemanager
+    start boot-hal-1-1
 
 on boot
     start health-hal-2-1
     setprop sys.usb.config adb
+
+on property:vendor.sys.listeners.registered=true
+    start keymaster-4-1
+    start gatekeeper-1-0
+
+service keymaster-4-1 /vendor/bin/hw/android.hardware.keymaster@4.1-service.beanpod
+    interface android.hardware.keymaster@4.0::IKeymasterDevice default
+    interface android.hardware.keymaster@4.1::IKeymasterDevice default
+    user root
+    group root drmrpc
+    disabled
+    seclabel u:r:recovery:s0
+
+service gatekeeper-1-0 /vendor/bin/hw/android.hardware.gatekeeper@1.0-service
+    interface android.hardware.gatekeeper@1.0::IGatekeeper default
+    user root
+    group root
+    disabled
+    seclabel u:r:recovery:s0
