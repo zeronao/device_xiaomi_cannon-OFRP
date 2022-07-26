@@ -53,8 +53,8 @@
 	# 由于橙狐默认屏幕比例是16：9,所以应设置屏幕高度为屏幕比例换算成n：9之后，n*120
 	export OF_SCREEN_H=2340
 	export OF_STATUS_H=120
-	export OF_STATUS_INDENT_LEFT=120
-	export OF_STATUS_INDENT_RIGHT=90
+	export OF_STATUS_INDENT_LEFT=150
+	export OF_STATUS_INDENT_RIGHT=20
 	# 添加黑色状态栏（隐藏刘海）选项
 	export OF_HIDE_NOTCH=1
 	# 由于有刘海遮挡，设置时钟位置为只能显示在左侧或右侧
@@ -97,7 +97,7 @@
 	# 禁用橙狐内置的magisk菜单
 	export FOX_DELETE_MAGISK_ADDON=0
 	# 使用指定的magisk
-        export FOX_USE_SPECIFIC_MAGISK_ZIP="$PWD/device/xiaomi/cannon/recovery/root/FFiles/Magisk.zip"
+    export FOX_USE_SPECIFIC_MAGISK_ZIP="$PWD/device/xiaomi/cannon/recovery/root/FFiles/Magisk.zip"
 	# 使用指定的magisk版本号，由于magisk 23+使用了新的包装形式，文件路径改变了，橙狐无法获取正确的版本
 	export MAGISK_VER=25.2
 	# 当修补recovery/boot镜像时，始终指示magiskboot v24+修补vbmeta标头（自动禁用avb验证？）
