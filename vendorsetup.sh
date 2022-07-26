@@ -12,7 +12,7 @@
 	echo -e "\x1b[96mcannon: 开始添加OrangeFox Vars...\x1b[m"
 	## 构建信息
 	# 设置显示在关于页面里的维护人员名称
-	export OF_MAINTAINER=AneglaCool,ymdzq,Kanbay,Uzeda
+	export OF_MAINTAINER=AneglaCool,ymdzq,Kanbay,Uzeda,ZhcnPanda,woomymy
 	# 设置版本号为日期
 	export FOX_VERSION=$(date +%y.%m.%d)
 
@@ -82,14 +82,17 @@
 	# export OF_SKIP_FBE_DECRYPTION_SDKVERSION=31
 	# 在MIUI OTA还原期间尝试解密内部存储（而不是错误退出）
 	export OF_OTA_RES_DECRYPT=1
+	#dm-verity
+	export OF_FORCE_DISABLE_DM_VERITY=1
+	#OTA
+	export OF_SUPPORT_ALL_BLOCK_OTA_UPDATES=1
+	export OF_FIX_OTA_UPDATE_MANUAL_FLASH_ERROR=1
 	# 防止橙狐在解密后重新运行自启动进程
 	export OF_NO_RELOAD_AFTER_DECRYPTION=1
 	# 设置一个很老的build时间，用于解决某些ROM例如MIUI刷机脚本里的防回滚保护检测
 	export FOX_BUGGED_AOSP_ARB_WORKAROUND="1546300800"; # Tuesday, January 1, 2019 12:00:00 AM GMT+00:00
 	# 防止用户在不使用metadata加密的ROM中重复被metadata装载错误提示刷屏
 	export OF_FBE_METADATA_MOUNT_IGNORE=1
-	# 手动刷入OTA增量包时尝试进入OpenRecoveryScript模式完成更新
-	export OF_FIX_OTA_UPDATE_MANUAL_FLASH_ERROR=1
 	# 尝试处理AVB2.0，防止橙狐被官方recovery替换，实测此机型无效
 	# export OF_PATCH_AVB20=1
 	# 关闭修改橙狐启动画面功能，这个功能可能会导致重启无限卡MI
