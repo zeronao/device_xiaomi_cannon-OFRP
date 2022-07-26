@@ -9,12 +9,21 @@ LOCAL_PATH := device/xiaomi/cannon
 
 # Dynamic Partitions
 PRODUCT_USE_DYNAMIC_PARTITIONS := true
+
 # Fastbootd
 TW_INCLUDE_FASTBOOTD := true
+
+# Keystore
+PRODUCT_PACKAGES += \
+    android.system.keystore2
 
 # API
 PRODUCT_TARGET_VNDK_VERSION := 31
 PRODUCT_SHIPPING_API_LEVEL := 29
+
+# Vibrator
+PRODUCT_PACKAGES += \
+	android.hardware.vibrator@1.3-service.mtk.recovery
 
 # Additional binaries & libraries needed for recovery
 TARGET_RECOVERY_DEVICE_MODULES += \

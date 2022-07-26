@@ -126,6 +126,7 @@ TARGET_USES_MKE2FS := true
 TW_BRIGHTNESS_PATH := "/sys/class/leds/lcd-backlight/brightness"
 TW_MAX_BRIGHTNESS := 2047
 TW_DEFAULT_BRIGHTNESS := 200
+TW_FRAMERATE := 60
 
 # Language
 #TW_DEFAULT_LANGUAGE := "zh_CH"

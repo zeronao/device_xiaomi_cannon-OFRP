@@ -14,6 +14,7 @@ on post-fs
     start boot-hal-1-1
 
 on boot
+    start vibrator-1-3
     start health-hal-2-1
     setprop sys.usb.config adb
 
@@ -34,4 +35,11 @@ service gatekeeper-1-0 /vendor/bin/hw/android.hardware.gatekeeper@1.0-service
     user root
     group root
     disabled
+    seclabel u:r:recovery:s0
+
+service vibrator-1-3 /system/bin/hw/android.hardware.vibrator@1.3-service.mtk
+    class hal
+    disabled
+    user root
+    group root
     seclabel u:r:recovery:s0

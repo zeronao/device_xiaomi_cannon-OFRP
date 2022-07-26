@@ -13,7 +13,7 @@ DEVICE_PATH="device/xiaomi/cannon"
 	echo -e "\x1b[96mcannon: 开始添加OrangeFox Vars...\x1b[m"
 	## 构建信息
 	# 设置显示在关于页面里的维护人员名称
-	export OF_MAINTAINER=AneglaCool,ymdzq,Kanbay,Uzeda
+	export OF_MAINTAINER=AneglaCool,ymdzq,Kanbay,Uzeda,ZhcnPanda,woomymy
 	# 设置版本号为日期
 	export FOX_VERSION=$(date +%y.%m.%d)
 
@@ -52,7 +52,7 @@ DEVICE_PATH="device/xiaomi/cannon"
 	# 由于橙狐默认屏幕比例是16：9,所以应设置屏幕高度为屏幕比例换算成n：9之后，n*120
 	export OF_SCREEN_H=2340
 	export OF_STATUS_H=120
-	export OF_STATUS_INDENT_LEFT=160
+	export OF_STATUS_INDENT_LEFT=150
 	export OF_STATUS_INDENT_RIGHT=20
 	# 添加黑色状态栏（隐藏刘海）选项
 	export OF_HIDE_NOTCH=1
@@ -74,9 +74,10 @@ DEVICE_PATH="device/xiaomi/cannon"
 	# 跳过FBE解密流程（防止卡在橙狐LOGO或Redmi/Mi LOGO界面）
 	# export OF_SKIP_FBE_DECRYPTION=1
 	# 在MIUI OTA还原期间尝试解密内部存储（而不是错误退出）
- 	export F_NO_MIUI_OTA_VENDOR_BACKUP=1
+	export OF_OTA_RES_DECRYPT=1
+	#dm-verity
 	export OF_FORCE_DISABLE_DM_VERITY=1
-	export OF_KEEP_DM_VERITY_FORCED_ENCRYPTION=1
+	#OTA
 	export OF_SUPPORT_ALL_BLOCK_OTA_UPDATES=1
 	export OF_FIX_OTA_UPDATE_MANUAL_FLASH_ERROR=1
 	# 防止橙狐在解密后重新运行自启动进程
@@ -85,13 +86,12 @@ DEVICE_PATH="device/xiaomi/cannon"
 	export FOX_BUGGED_AOSP_ARB_WORKAROUND="1546300800"; # Tuesday, January 1, 2019 12:00:00 AM GMT+00:00
 	# 防止用户在不使用metadata加密的ROM中重复被metadata装载错误提示刷屏
 	export OF_FBE_METADATA_MOUNT_IGNORE=1
-
 	# 尝试处理AVB2.0，防止橙狐被官方recovery替换，实测此机型无效
 	export OF_PATCH_AVB20=1
 	# 关闭修改橙狐启动画面功能，这个功能可能会导致重启无限卡MI
 	export OF_NO_SPLASH_CHANGE=1
 	# 使用指定的magisk
-        export FOX_USE_SPECIFIC_MAGISK_ZIP="$PWD/device/xiaomi/cannon/recovery/root/FFiles/Magisk.zip"
+    export FOX_USE_SPECIFIC_MAGISK_ZIP="$PWD/device/xiaomi/cannon/recovery/root/FFiles/Magisk.zip"
 	# 使用指定的magisk版本号，由于magisk 23+使用了新的包装形式，文件路径改变了，橙狐无法获取正确的版本
 	export MAGISK_VER=25.2
 	# 当修补recovery/boot镜像时，始终指示magiskboot v24+修补vbmeta标头（自动禁用avb验证？）
@@ -99,7 +99,7 @@ DEVICE_PATH="device/xiaomi/cannon"
 	export OF_PATCH_VBMETA_FLAG=1
 	# 修复部分设备或者rom的解密问题
 	export OF_FIX_DECRYPTION_ON_DATA_MEDIA=1
-	export OF_OTA_RES_DECRYPT=1
+
       
 
 
